@@ -38,8 +38,3 @@ func Solution2(_ input: [String]) -> Int {
 
 // 55291
 Solution2(input)
-
-var 🍆 = [1, 2, 3, 4]
-for 💦 in 🍆 {
-  print("\(💦) 🍑")
-}
