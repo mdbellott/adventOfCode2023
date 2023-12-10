@@ -38,3 +38,5 @@ func Solution2(_ input: [String]) -> Int {
 
 // 55291
 Solution2(input)
+
+let x = 0..<29
