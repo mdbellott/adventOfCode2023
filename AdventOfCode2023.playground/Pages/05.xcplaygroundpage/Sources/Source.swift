@@ -1,20 +1,18 @@
 import Foundation
 
-// MARK: - Shared
-
 // MARK: - RangePair
 
-public struct RangePair {
+struct RangePair {
   let startRange: Range<Int>
   let endRange: Range<Int>
   let offset: Int
   
-  public func mapValue(_ value: Int) -> Int {
+  func mapValue(_ value: Int) -> Int {
     guard startRange.contains(value) else { return value }
     return value + offset
   }
   
-  public func mapRange(_ range: Range<Int>) -> [Range<Int>] {
+  func mapRange(_ range: Range<Int>) -> [Range<Int>] {
     var mapped = [Range<Int>]()
     
     // Full Overlap Inside
@@ -56,10 +54,10 @@ public struct RangePair {
 
 // MARK: - RangeGroup
 
-public struct RangeGroup {
+struct RangeGroup {
   let pairs: [RangePair]
   
-  public func mapValue(_ value: Int) -> Int {
+  func mapValue(_ value: Int) -> Int {
     for pair in pairs {
       let mapped = pair.mapValue(value)
       if mapped != value { return mapped }
@@ -78,7 +76,7 @@ public struct RangeGroup {
     return result
   }
   
-  public func mapRanges(_ range: Range<Int>) -> [Range<Int>] {
+  func mapRanges(_ range: Range<Int>) -> [Range<Int>] {
     guard let pair = pairOverlappingRange(range) else {
       return [range]
     }
@@ -88,11 +86,11 @@ public struct RangeGroup {
 
 // MARK: - Almanac
 
-public struct Almanac {
+struct Almanac {
   var seedRanges = [Range<Int>]()
   var rangeGroups = [RangeGroup]()
 
-  public func findLowestLocation() -> Int {
+  func findLowestLocation() -> Int {
     var mappedSeeds = seedRanges
     // Map seeds through each group, in order
     for group in rangeGroups {
@@ -111,7 +109,7 @@ public struct Almanac {
 
 // MARK: - Parsing
 
-public func parseSeeds(_ line: String, part: Int) -> [Range<Int>] {
+func parseSeeds(_ line: String, part: Int) -> [Range<Int>] {
   if part == 1 {
     return line
       .replacingOccurrences(of: "seeds:", with: "")
@@ -131,7 +129,7 @@ public func parseSeeds(_ line: String, part: Int) -> [Range<Int>] {
   return []
 }
 
-public func parseAlmanac(_ input: [String], part: Int) -> Almanac {
+func parseAlmanac(_ input: [String], part: Int) -> Almanac {
   // Parse Seeds
   var almanac: Almanac = Almanac()
   almanac.seedRanges = parseSeeds(input[0], part: part)
@@ -159,4 +157,16 @@ public func parseAlmanac(_ input: [String], part: Int) -> Almanac {
   }
   
   return almanac
+}
+
+// MARK: - Part 1
+
+public func Part1(_ input: [String]) -> Int {
+  return parseAlmanac(input, part: 1).findLowestLocation()
+}
+
+// MARK: - Part 2
+
+public func Part2(_ input: [String]) -> Int {
+  return parseAlmanac(input, part: 2).findLowestLocation()
 }

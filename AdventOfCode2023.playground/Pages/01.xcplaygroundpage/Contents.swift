@@ -6,37 +6,34 @@ import Foundation
 
 // MARK: - Input
 
-let input = try Input.01.load(as: [String].self).filter{ !$0.isEmpty }
+let day = 1
 
-// MARK: - Solution 1
-func Solution1(_ input: [String]) -> Int {
-  input.map { line in
-    let first = Int(String(line.first { $0.isNumber } ?? "0")) ?? 0
-    let last = Int(String(line.last { $0.isNumber } ?? "0")) ?? 0
-    return (first * 10) + last
-  }.reduce(0, +)
-}
+let parser = AOCParser<String>(day: day)
+let input = try parser.loadInput()
+let test1 = try parser.loadTest1()
+let test2 = try parser.loadTest2()
+
+
+// MARK: - Part 1
+
+let assertP1 = Part1(test1) == 142
 
 // 55607
-Solution1(input)
+let answerP1 = Part1(input).toAnswer
 
-// MARK: - Solution 2
+// MARK: - Part 2
 
-// We need to maintain letters that could be the start or end of other numbers (o, e, n, t)
-let words = ["one": "o1e", "two": "t2o", "three": "t3e", "four": "4", 
-             "five": "5e", "six": "6", "seven": "7n", "eight": "e8t", "nine": "9e"]
+let assertP2 = Part2(test2) == 281
 
-func Solution2(_ input: [String]) -> Int {
-  input.map { line in
-    var line = line
-    for key in words.keys { line = line.replacing(key, with: words[key, default: "0"]) }
-    let first = Int(String(line.first { $0.isNumber } ?? "0")) ?? 0
-    let last = Int(String(line.last { $0.isNumber } ?? "0")) ?? 0
-    return (first * 10) + last
-  }.reduce(0, +)
-}
+// 55607
+let answerP2 = Part2(input).toAnswer
 
-// 55291
-Solution2(input)
+// MARK: - Print
 
-let x = 0..<29
+AOCPrinter(
+  day: 1,
+  test1: assertP1,
+  answer1: answerP1,
+  test2: assertP2,
+  answer2: answerP2
+).printResults()

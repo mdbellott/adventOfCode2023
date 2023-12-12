@@ -6,38 +6,33 @@ import Foundation
 
 // MARK: - Input
 
-let input = try Input.09.load(as: [String].self).filter { !$0.isEmpty }
+let day = 9
 
-// MARK: - Shared
-
-func parse(_ input: [String]) -> [[Int]] {
-  input.map { line in line.components(separatedBy: " ").compactMap { num in Int(String(num)) } }
-}
+let parser = AOCParser<Int>(day: day)
+let input = try parser.loadInput()
+let test1 = try parser.loadTest1()
+let test2 = try parser.loadTest2()
 
 // MARK: - Part 1
 
-func recursive(_ sequence: [Int]) -> Int {
-  return -1
-}
+let assertP1 = Part1(test1) == 6
 
-func prediction(_ sequences: [[Int]]) -> Int {
-  return -1
-}
-
-func Solution1(_ input: [String]) -> Int {
-  let lines = parse(input)
-  return -1
-}
-
-//
-Solution1(input)
+// 12083
+let answerP1 = Part1(input).toAnswer
 
 // MARK: - Part 2
 
-func Solution2(_ input: [String]) -> Int {
-  let lines = parse(input)
-  return -1
-}
+let assertP2 = Part2(test2) == 6
 
-//
-Solution2(input)
+// 13385272668829
+let answerP2 = Part2(input).toAnswer
+
+// MARK: - Print
+
+AOCPrinter(
+  day: day,
+  test1: assertP1,
+  answer1: answerP1,
+  test2: assertP2,
+  answer2: answerP2
+).printResults()

@@ -6,79 +6,33 @@ import Foundation
 
 // MARK: - Input
 
-let input = try Input.04.load(as: [String].self).filter { !$0.isEmpty }
+let day = 4
 
-// MARK: - Shared
+let parser = AOCParser<String>(day: day)
+let input = try parser.loadInput()
+let test1 = try parser.loadTest1()
+let test2 = try parser.loadTest2()
 
-struct Card {
-  var winningNumbers: Set<Int>
-  var drawnNumbers: Set<Int>
-  
-  var matches: Int {
-    winningNumbers.intersection(drawnNumbers).count
-  }
-  
-  func calculatePoints() -> Int {
-    let count = matches
-    guard count > 0 else { return count }
-    var result = 1
-    for _ in 1..<count { result = result * 2 }
-    return result
-  }
-}
+// MARK: - Part 1
 
-func cards(from input: [String]) -> [Card] {
-  var cards = [Card]()
-  for line in input {
-    let numbers = line
-      .replacingOccurrences(of: "Card\\s+(\\d+):", with: "", options: .regularExpression)
-      .split(separator: "|")
-    let winning = Set(numbers[0].split(separator: " ").map { Int($0) ?? 0 })
-    let drawn = Set(numbers[1].split(separator: " ").map { Int($0) ?? 0 })
-    cards.append(Card(winningNumbers: winning, drawnNumbers: drawn))
-  }
-  return cards
-}
-
-// MARK: - Solution 1
-
-func Solution1(_ input: [String]) -> Int {
-  let cards = cards(from: input)
-  return cards.map { $0.calculatePoints() }.reduce(0, +)
-}
+let assertP1 = Part1(test1) == 13
 
 // 24848
-Solution1(input)
+let answerP1 = Part1(input).toAnswer
 
-// MARK: - Solution 2
+// MARK: - Part 2
 
-// Bottom Up DP
-func processCards(_ cards: [Card]) -> Int {
-  // Dynamic Programming [Card Number: Number of Copies]
-  var mem = [Int: Int]()
-  // Bottom Up
-  for card in (0..<cards.count).reversed() {
-    // Count the original card
-    var copies = 1
-    // Count + Store copies from this card
-    if cards[card].matches > 0 {
-      for i in (card + 1)...(card + cards[card].matches) {
-        guard i < cards.count else { continue }
-        copies += mem[i] ?? 0
-      }
-    }
-    mem[card] = copies
-  }
-  // Sum all cards from each card
-  var result = 0
-  for i in 0..<cards.count { result += mem[i] ?? 0 }
-  return result
-}
-
-func Solution2(_ input: [String]) -> Int {
-  let cards = cards(from: input)
-  return processCards(cards)
-}
+let assertP2 = Part2(test2) == 30
 
 // 7258152
-Solution2(input)
+let answerP2 = Part2(input).toAnswer
+
+// MARK: - Print
+
+AOCPrinter(
+  day: 4,
+  test1: assertP1,
+  answer1: answerP1,
+  test2: assertP2,
+  answer2: answerP2
+).printResults()

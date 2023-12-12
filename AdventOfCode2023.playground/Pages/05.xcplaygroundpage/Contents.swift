@@ -6,22 +6,33 @@ import Foundation
 
 // MARK: - Input
 
-let input = try Input.05.load(as: [String].self)
+let day = 5
 
-// MARK: - Solution 2
+let parser = AOCParser<String>(day: day)
+let input = try parser.loadInput()
+let test1 = try parser.loadTest1()
+let test2 = try parser.loadTest2()
 
-func Solution1(_ input: [String]) -> Int {
-  return parseAlmanac(input, part: 1).findLowestLocation()
-}
+// MARK: - Part 1
+
+let assertP1 = Part1(test1) == 35
 
 // 227653707
-Solution1(input)
+let answerP1 = Part1(input).toAnswer
 
-// MARK: - Solution 2
+// MARK: - Part 2
 
-func Solution2(_ input: [String]) -> Int {
-  return parseAlmanac(input, part: 2).findLowestLocation()
-}
+let assertP2 = Part2(test2) == 46
 
 // CORRECT: 78775051
-Solution2(input)
+let answerP2 = Part2(input).toAnswer
+
+// MARK: - Print
+
+AOCPrinter(
+  day: 5,
+  test1: assertP1,
+  answer1: answerP1,
+  test2: assertP2,
+  answer2: answerP2
+).printResults()
