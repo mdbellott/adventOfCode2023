@@ -11,7 +11,7 @@ let input = try Input.05.load(as: [String].self)
 // MARK: - Solution 2
 
 func Solution1(_ input: [String]) -> Int {
-  return parseAlmanac1(input).findLowestLocation1()
+  return parseAlmanac(input, part: 1).findLowestLocation()
 }
 
 // 227653707
@@ -20,8 +20,8 @@ Solution1(input)
 // MARK: - Solution 2
 
 func Solution2(_ input: [String]) -> Int {
-  return parseAlmanac2(input).findLowestLocation2()
+  return parseAlmanac(input, part: 2).findLowestLocation()
 }
 
-// 7258152
+// CORRECT: 78775051
 Solution2(input)

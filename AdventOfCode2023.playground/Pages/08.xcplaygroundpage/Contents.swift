@@ -1,7 +1,7 @@
 import Foundation
 
 //
-// --- Day 7: Camel Cards ---
+// --- Day 8: Haunted Wasteland ---
 //
 
 // MARK: - Input
