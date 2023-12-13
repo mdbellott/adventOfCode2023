@@ -8,23 +8,23 @@ import Foundation
 
 let day = 9
 
-let parser = AOCParser<Int>(day: day)
+let parser = AOCParser<String>(day: day)
 let input = try parser.loadInput()
 let test1 = try parser.loadTest1()
 let test2 = try parser.loadTest2()
 
 // MARK: - Part 1
 
-let assertP1 = Part1(test1) == 6
+let assertP1 = Part1(test1) == 114
 
 // 12083
 let answerP1 = Part1(input).toAnswer
 
 // MARK: - Part 2
+let t2 = Part2(test2)
+let assertP2 = Part2(test2) == 2
 
-let assertP2 = Part2(test2) == 6
-
-// 13385272668829
+// 990
 let answerP2 = Part2(input).toAnswer
 
 // MARK: - Print
