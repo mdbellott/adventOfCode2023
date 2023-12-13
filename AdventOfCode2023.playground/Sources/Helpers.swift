@@ -114,3 +114,33 @@ public extension String {
     return String(self[index(startIndex, offsetBy: i)])
   }
 }
+
+// MARK: - Common
+
+public struct Pos: Hashable {
+  public let x: Int
+  public let y: Int
+  
+  public init(x: Int, y: Int) {
+    self.x = x
+    self.y = y
+  }
+}
+
+public enum Dir {
+  case up
+  case down
+  case left
+  case right
+  case none
+  
+  public func inverse() -> Dir {
+    switch self {
+    case .up: return .down
+    case .down: return .up
+    case .left: return .right
+    case .right: return .left
+    case .none: return .none
+    }
+  }
+}
