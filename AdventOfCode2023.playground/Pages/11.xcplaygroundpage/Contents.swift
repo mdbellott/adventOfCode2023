@@ -1,7 +1,7 @@
 import Foundation
 
 //
-// --- Day 10: Pipe Maze ---
+// --- Day 11: Cosmic Expansion ---
 //
 
 // MARK: - Input
