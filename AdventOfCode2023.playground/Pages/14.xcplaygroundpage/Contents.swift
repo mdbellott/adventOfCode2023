@@ -15,14 +15,16 @@ let test2 = try parser.loadTest2()
 
 // MARK: - Part 1
 
-let assertP1 = Part1(test1) == 405
+let assertP1 = Part1(test1) == 136
 
+// 109833
 let answerP1 = Part1(input).toAnswer
 
 // MARK: - Part 2
 
-let assertP2 = Part2(test2) == 0
+let assertP2 = Part2(test2) == 64
 
+// 99875
 let answerP2 = Part2(input).toAnswer
 
 // MARK: - Print

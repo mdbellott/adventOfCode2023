@@ -1,77 +1,114 @@
-# Day 8: Haunted Wasteland
+# Day 14: Parabolic Reflector Dish
 
-[https://adventofcode.com/2023/day/8](https://adventofcode.com/2023/day/8)
+[https://adventofcode.com/2023/day/14](https://adventofcode.com/2023/day/14)
 
 ## Description
 
 ### Part One
 
-You're still riding a camel across Desert Island when you spot a sandstorm quickly approaching. When you turn to warn the Elf, she disappears before your eyes! To be fair, she had just finished warning you about _ghosts_ a few minutes ago.
+You reach the place where all of the mirrors were pointing: a massive [parabolic reflector dish](https://en.wikipedia.org/wiki/Parabolic_reflector) <span title="Why, where do you attach YOUR massive parabolic reflector dishes?">attached</span> to the side of another large mountain.
 
-One of the camel's pouches is labeled "maps" - sure enough, it's full of documents (your puzzle input) about how to navigate the desert. At least, you're pretty sure that's what they are; one of the documents contains a list of left/right instructions, and the rest of the documents seem to describe some kind of _network_ of labeled nodes.
+The dish is made up of many small mirrors, but while the mirrors themselves are roughly in the shape of a parabolic reflector dish, each individual mirror seems to be pointing in slightly the wrong direction. If the dish is meant to focus light, all it's doing right now is sending it in a vague direction.
 
-It seems like you're meant to use the _left/right_ instructions to _navigate the network_. Perhaps if you have the camel follow the same instructions, you can escape the haunted wasteland!
+This system must be what provides the energy for the lava! If you focus the reflector dish, maybe you can go where it's pointing and use the light to fix the lava production.
 
-After examining the maps for a bit, two nodes stick out: `AAA` and `ZZZ`. You feel like `AAA` is where you are now, and you have to follow the left/right instructions until you reach `ZZZ`.
+Upon closer inspection, the individual mirrors each appear to be connected via an elaborate system of ropes and pulleys to a large metal platform below the dish. The platform is covered in large rocks of various shapes. Depending on their position, the weight of the rocks deforms the platform, and the shape of the platform controls which ropes move and ultimately the focus of the dish.
 
-This format defines each _node_ of the network individually. For example:
+In short: if you move the rocks, you can focus the dish. The platform even has a control panel on the side that lets you _tilt_ it in one of four directions! The rounded rocks (`O`) will roll when the platform is tilted, while the cube-shaped rocks (`#`) will stay in place. You note the positions of all of the empty spaces (`.`) and rocks (your puzzle input). For example:
 
-    RL
-    
-    AAA = (BBB, CCC)
-    BBB = (DDD, EEE)
-    CCC = (ZZZ, GGG)
-    DDD = (DDD, DDD)
-    EEE = (EEE, EEE)
-    GGG = (GGG, GGG)
-    ZZZ = (ZZZ, ZZZ)
-    
-
-Starting with `AAA`, you need to _look up the next element_ based on the next left/right instruction in your input. In this example, start with `AAA` and go _right_ (`R`) by choosing the right element of `AAA`, _`CCC`_. Then, `L` means to choose the _left_ element of `CCC`, _`ZZZ`_. By following the left/right instructions, you reach `ZZZ` in _`2`_ steps.
-
-Of course, you might not find `ZZZ` right away. If you run out of left/right instructions, repeat the whole sequence of instructions as necessary: `RL` really means `RLRLRLRLRLRLRLRL...` and so on. For example, here is a situation that takes _`6`_ steps to reach `ZZZ`:
-
-    LLR
-    
-    AAA = (BBB, BBB)
-    BBB = (AAA, ZZZ)
-    ZZZ = (ZZZ, ZZZ)
+    O....#....
+    O.OO#....#
+    .....##...
+    OO.#O....O
+    .O.....O#.
+    O.#..O.#.#
+    ..O..#O..O
+    .......O..
+    #....###..
+    #OO..#....
     
 
-Starting at `AAA`, follow the left/right instructions. _How many steps are required to reach `ZZZ`?_
+Start by tilting the lever so all of the rocks will slide _north_ as far as they will go:
+
+    OOOO.#.O..
+    OO..#....#
+    OO..O##..O
+    O..#.OO...
+    ........#.
+    ..#....#.#
+    ..O..#.O.O
+    ..O.......
+    #....###..
+    #....#....
+    
+
+You notice that the support beams along the north side of the platform are _damaged_; to ensure the platform doesn't collapse, you should calculate the _total load_ on the north support beams.
+
+The amount of load caused by a single rounded rock (`O`) is equal to the number of rows from the rock to the south edge of the platform, including the row the rock is on. (Cube-shaped rocks (`#`) don't contribute to load.) So, the amount of load caused by each rock in each row is as follows:
+
+    OOOO.#.O.. 10
+    OO..#....#  9
+    OO..O##..O  8
+    O..#.OO...  7
+    ........#.  6
+    ..#....#.#  5
+    ..O..#.O.O  4
+    ..O.......  3
+    #....###..  2
+    #....#....  1
+    
+
+The total load is the sum of the load caused by all of the _rounded rocks_. In this example, the total load is _`136`_.
+
+Tilt the platform so that the rounded rocks all roll north. Afterward, _what is the total load on the north support beams?_
 
 ### Part Two
 
-The <span title="Duhduhduhduhduh! Dah, duhduhduhduhduh!">sandstorm</span> is upon you and you aren't any closer to escaping the wasteland. You had the camel follow the instructions, but you've barely left your starting position. It's going to take _significantly more steps_ to escape!
+The parabolic reflector dish deforms, but not in a way that focuses the beam. To do that, you'll need to move the rocks to the edges of the platform. Fortunately, a button on the side of the control panel labeled "_spin cycle_" attempts to do just that!
 
-What if the map isn't for people - what if the map is for _ghosts_? Are ghosts even bound by the laws of spacetime? Only one way to find out.
+Each _cycle_ tilts the platform four times so that the rounded rocks roll _north_, then _west_, then _south_, then _east_. After each tilt, the rounded rocks roll as far as they can before the platform tilts in the next direction. After one cycle, the platform will have finished rolling the rounded rocks in those four directions in that order.
 
-After examining the maps a bit longer, your attention is drawn to a curious fact: the number of nodes with names ending in `A` is equal to the number ending in `Z`! If you were a ghost, you'd probably just _start at every node that ends with `A`_ and follow all of the paths at the same time until they all simultaneously end up at nodes that end with `Z`.
+Here's what happens in the example above after each of the first few cycles:
 
-For example:
-
-    LR
+    After 1 cycle:
+    .....#....
+    ....#...O#
+    ...OO##...
+    .OO#......
+    .....OOO#.
+    .O#...O#.#
+    ....O#....
+    ......OOOO
+    #...O###..
+    #..OO#....
     
-    11A = (11B, XXX)
-    11B = (XXX, 11Z)
-    11Z = (11B, XXX)
-    22A = (22B, XXX)
-    22B = (22C, 22C)
-    22C = (22Z, 22Z)
-    22Z = (22B, 22B)
-    XXX = (XXX, XXX)
+    After 2 cycles:
+    .....#....
+    ....#...O#
+    .....##...
+    ..O#......
+    .....OOO#.
+    .O#...O#.#
+    ....O#...O
+    .......OOO
+    #..OO###..
+    #.OOO#...O
+    
+    After 3 cycles:
+    .....#....
+    ....#...O#
+    .....##...
+    ..O#......
+    .....OOO#.
+    .O#...O#.#
+    ....O#...O
+    .......OOO
+    #...O###.O
+    #.OOO#...O
     
 
-Here, there are two starting nodes, `11A` and `22A` (because they both end with `A`). As you follow each left/right instruction, use that instruction to _simultaneously_ navigate away from both nodes you're currently on. Repeat this process until _all_ of the nodes you're currently on end with `Z`. (If only some of the nodes you're on end with `Z`, they act like any other node and you continue as normal.) In this example, you would proceed as follows:
+This process should work if you leave it running long enough, but you're still worried about the north support beams. To make sure they'll survive for a while, you need to calculate the _total load_ on the north support beams after `1000000000` cycles.
 
-*   Step 0: You are at `11A` and `22A`.
-*   Step 1: You choose all of the _left_ paths, leading you to `11B` and `22B`.
-*   Step 2: You choose all of the _right_ paths, leading you to _`11Z`_ and `22C`.
-*   Step 3: You choose all of the _left_ paths, leading you to `11B` and _`22Z`_.
-*   Step 4: You choose all of the _right_ paths, leading you to _`11Z`_ and `22B`.
-*   Step 5: You choose all of the _left_ paths, leading you to `11B` and `22C`.
-*   Step 6: You choose all of the _right_ paths, leading you to _`11Z`_ and _`22Z`_.
+In the above example, after `1000000000` cycles, the total load on the north support beams is _`64`_.
 
-So, in this example, you end up entirely on nodes that end in `Z` after _`6`_ steps.
-
-Simultaneously start on every node that ends with `A`. _How many steps does it take before you're only on nodes that end with `Z`?_
+Run the spin cycle for `1000000000` cycles. Afterward, _what is the total load on the north support beams?_
