@@ -14,7 +14,7 @@ let test1 = try parser.loadTest1()
 let test2 = try parser.loadTest2()
 
 // MARK: - Part 1
-Part1(test1)
+
 let assertP1 = Part1(test1) == 1320
 
 // 513158

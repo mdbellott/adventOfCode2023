@@ -134,6 +134,8 @@ public enum Dir {
   case right
   case none
   
+  public static func allDirections() -> [Dir] { [.up, .down, .left, .right] }
+  
   public func inverse() -> Dir {
     switch self {
     case .up: return .down
@@ -142,5 +144,21 @@ public enum Dir {
     case .right: return .left
     case .none: return .none
     }
+  }
+  
+  public func nextPosition(from pos: Pos, _ xMax: Int, _ yMax: Int) -> Pos? {
+    switch self {
+    case .up:
+      if pos.y > 0 { return Pos(x: pos.x, y: pos.y - 1) }
+    case .down:
+      if pos.y < yMax { return Pos(x: pos.x, y: pos.y + 1) }
+    case .left:
+      if pos.x > 0 { return Pos(x: pos.x - 1, y: pos.y) }
+    case .right:
+      if pos.x < xMax { return Pos(x: pos.x + 1, y: pos.y) }
+    case .none:
+      return nil
+    }
+    return nil
   }
 }
